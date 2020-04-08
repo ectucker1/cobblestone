@@ -8,7 +8,7 @@ Future<Tileset> loadTileset(String url, FutureOr<dynamic> atlas,
     [int extraSpacing = 0, int extraMargin = 0]) async {
   String file = await HttpRequest.getString(url);
   xml.XmlDocument doc = xml.parse(file);
-  return Tileset.fromFile(doc, await atlas);
+  return Tileset.fromFile(doc, await atlas, extraSpacing, extraMargin);
 }
 
 /// A set of tiles used in rendering a map.
