@@ -1,7 +1,7 @@
 name: cobblestone
 description: >-
   A mid-level 2D game framework, providing WebGL rendering, audio playing, tilemaps, particle effects, tweens, and more.
-version: 0.3.3
+version: 0.3.4
 author: Ethan Tucker <ectucker1@gmail.com>
 homepage: https://gitlab.com/ectucker/cobblestone
 issue_tracker: https://gitlab.com/ectucker/cobblestone/issues

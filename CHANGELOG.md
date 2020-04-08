@@ -1,6 +1,11 @@
 
 # Changelog  
 
+## 0.3.4
+
+- Update dependencies to latest version
+- Now requires ```sdk >= 2.6.0```
+
 ## 0.3.3
 
 - Added `enableHDPI` variable in `BaseGame` to configure High DPI support
