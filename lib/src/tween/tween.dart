@@ -43,7 +43,7 @@ class Tween {
   Tween();
 
   /// Adds the tween to the manager
-  start(TweenManager manager) {
+  void start(TweenManager manager) {
     _initial = get.map((f) => f()).toList();
 
     manager.add(this);
@@ -51,12 +51,12 @@ class Tween {
   }
 
   /// Runs this tween, then the next one
-  chain(Tween tween) {
+  void chain(Tween tween) {
     _next = tween;
   }
 
   /// Updates the tween to it position after [delta] more seconds
-  update(double delta) {
+  void update(double delta) {
     _time += delta;
 
     if(_time > delay) {

@@ -47,28 +47,28 @@ abstract class State {
   Mouse get mouse => game.mouse;
 
   /// Loads assets using [assetManager].
-  preload();
+  void preload();
 
   /// Called once after assets are loaded. Create custom game state here.
-  create();
+  void create();
 
   /// Resumes the state.
-  resume();
+  void resume();
 
   /// Pauses the state.
-  pause();
+  void pause();
 
   /// Updates the state. Called each frame before [render].
   ///
   /// [delta] is the time in seconds since last frame.
-  update(double delta);
+  void update(double delta);
 
   /// Renders the state. Called each frame after [update].
   ///
   /// [delta] is the time in seconds since last frame.
-  render(double delta);
+  void render(double delta);
 
   /// Called after canvas changes size.
-  resize(int width, int height);
+  void resize(int width, int height);
 
 }

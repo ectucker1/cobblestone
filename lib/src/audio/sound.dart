@@ -11,7 +11,7 @@ Future<Sound> loadSound(AudioWrapper audio, String url) async {
 ///
 /// Sounds are typically short files, use [Music] for longer tracks or narration.
 class Sound extends AudioPlayer {
-  AudioWrapper _audio;
+  final AudioWrapper _audio;
   web_audio.AudioContext _context;
 
   /// The raw audio data used to play this sound.
@@ -28,7 +28,7 @@ class Sound extends AudioPlayer {
 
   /// Creates a new sound form an audio buffer
   Sound(this._audio, this.buffer) {
-    this._context = _audio.context;
+    _context = _audio.context;
     _gainNode = _context.createGain();
     _sources = {};
   }
@@ -37,7 +37,8 @@ class Sound extends AudioPlayer {
   ///
   /// If [loop] is set true, repeats indefinitely.
   /// Calls [onEnd] after the sound is finished.
-  play({bool loop = false, Function onEnd}) {
+  @override
+  void play({bool loop = false, Function onEnd}) {
     final int id = _nextID;
 
     var source = _createSourceNode(loop);
@@ -57,7 +58,7 @@ class Sound extends AudioPlayer {
     playing = true;
   }
 
-  _createSourceNode(bool loop) {
+  web_audio.AudioBufferSourceNode _createSourceNode(bool loop) {
     web_audio.AudioBufferSourceNode source = _context.createBufferSource();
     source.buffer = buffer;
     source.loop = loop;
@@ -66,14 +67,15 @@ class Sound extends AudioPlayer {
   }
 
   /// Play sound only if it's not already playing.
-  playIfNot({bool loop = false, Function onEnd}) {
+  void playIfNot({bool loop = false, Function onEnd}) {
     if (!playing) {
       play(loop: loop, onEnd: onEnd);
     }
   }
 
   /// Stops all instances of this sound.
-  stop() {
+  @override
+  void stop() {
     for (var source in _sources.values) {
       source.stop(0);
     }
@@ -81,7 +83,7 @@ class Sound extends AudioPlayer {
     playing = false;
   }
 
-  _removeInstance(var id) {
+  void _removeInstance(var id) {
     // Remove node when it finishes playing
     if (_sources[id] != null) {
       _sources[id].stop(0);
@@ -91,6 +93,7 @@ class Sound extends AudioPlayer {
   }
 
   /// True of any instance of this sound is currently playing.
+  @override
   bool get playing => _playing;
   set playing(bool playing) {
     _playing = playing;
@@ -102,6 +105,7 @@ class Sound extends AudioPlayer {
   }
 
   /// The volume of this sound.
+  @override
   double get volume => _volume;
   set volume(double volume) {
     _volume = volume;

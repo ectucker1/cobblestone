@@ -21,7 +21,7 @@ class GLWrapper {
   }
 
   /// Clears the screen either to [r] as a [Vector4] or [r], [g], [b], [a] as numbers.
-  clearScreen(r, [double g, double b, double a]) {
+  void clearScreen(r, [double g, double b, double a]) {
     if (r is Vector4) {
       context.clearColor(r.r, r.g, r.b, r.a);
     } else {
@@ -32,19 +32,19 @@ class GLWrapper {
   }
 
   /// Sets the WebGL viewport to the given width and height
-  setGLViewport(int width, int height) {
+  void setGLViewport(int width, int height) {
     context.viewport(0, 0, width, height);
   }
 
   /// Sets the default WebGL options.
-  _setGLOptions() {
+  void _setGLOptions() {
     context.disable(WebGL.DEPTH_TEST);
     context.enable(WebGL.BLEND);
     context.blendFunc(WebGL.SRC_ALPHA, WebGL.ONE_MINUS_SRC_ALPHA);
   }
 
   /// Loads the shaders used by built in batches
-  _loadBuiltinShaders() {
+  void _loadBuiltinShaders() {
     batchShader = compileShader(_batchVertexShaderSrc, _batchFragmentShaderSrc);
     wireShader = compileShader(_wireVertexShaderSrc, _wireFragmentShaderSrc);
     pointShader = compileShader(_pointVertexShaderSrc, _pointFragmentShaderSrc);

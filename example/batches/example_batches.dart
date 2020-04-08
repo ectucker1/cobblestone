@@ -8,7 +8,7 @@ class BatchExample extends BaseGame {
   DebugBatch debugBatch;
 
   @override
-  create() {
+  void create() {
     camera = Camera2D.originBottomLeft(width, height);
     pointBatch = PointBatch.defaultShader(gl, maxSprites: 2);
 
@@ -18,10 +18,10 @@ class BatchExample extends BaseGame {
   }
 
   @override
-  preload() {}
+  void preload() {}
 
   @override
-  render(double delta) {
+  void render(double delta) {
     gl.clearScreen(0.0, 0.0, 0.0, 1.0);
 
     camera.update();
@@ -52,10 +52,11 @@ class BatchExample extends BaseGame {
     debugBatch.end();
   }
 
-  resize(int width, int height) {
+  @override
+  void resize(int width, int height) {
     gl.setGLViewport(canvasWidth, canvasHeight);
   }
 
   @override
-  update(double delta) {}
+  void update(double delta) {}
 }

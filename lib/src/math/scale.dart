@@ -11,7 +11,7 @@ enum ScaleMode {
 }
 
 /// Scales [element] based on [mode].
-scaleCanvas(CanvasElement element, ScaleMode mode, int requestWidth,
+void scaleCanvas(CanvasElement element, ScaleMode mode, int requestWidth,
     int requestHeight, int parentWidth, int parentHeight,
     bool handleHDPI) {
   double devicePixelRatio = handleHDPI ? window.devicePixelRatio : 1;

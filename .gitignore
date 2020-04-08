@@ -3,6 +3,7 @@
 .pub/
 build/
 .dart-tool/
+.dart_tool/package_config.json
 packages
 pubspec.lock
 .dart_tool/pub/bin/sdk-version

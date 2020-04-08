@@ -11,13 +11,13 @@ class PerformanceExample extends BaseGame {
   List<BoulderSprite> boulders = [];
 
   @override
-  create() {
+  void create() {
     camera = Camera2D.originBottomLeft(width, height);
     renderer = SpriteBatch.defaultShader(gl, maxSprites: 20000);
 
     gl.setGLViewport(canvasWidth, canvasHeight);
 
-    Texture boulderSheet = assetManager.get("boulders2.png");
+    Texture boulderSheet = assetManager.get('boulders2.png');
 
     List<Texture> textures = boulderSheet.split(16, 16);
     for (int i = 0; i < 100000; i++) {
@@ -28,12 +28,12 @@ class PerformanceExample extends BaseGame {
   }
 
   @override
-  preload() {
-    assetManager.load("boulders2.png", loadTexture(gl, "performance/boulders2.png"));
+  void preload() {
+    assetManager.load('boulders2.png', loadTexture(gl, 'performance/boulders2.png'));
   }
 
   @override
-  render(double delta) {
+  void render(double delta) {
     gl.clearScreen(0.0, 0.0, 0.0, 1.0);
 
     camera.update();
@@ -47,12 +47,13 @@ class PerformanceExample extends BaseGame {
     renderer.end();
   }
 
-  resize(int width, int height) {
+  @override
+  void resize(int width, int height) {
     gl.setGLViewport(canvasWidth, canvasHeight);
   }
 
   @override
-  update(double delta) {}
+  void update(double delta) {}
 }
 
 class BoulderSprite {
@@ -66,10 +67,10 @@ class BoulderSprite {
     speedY = (rand.nextDouble() * 100) - 50;
   }
 
-  update(double delta) {
-    this.x += speedX * delta;
-    this.y += speedY * delta;
-    this.speedY += gravity * delta;
+  void update(double delta) {
+    x += speedX * delta;
+    y += speedY * delta;
+    speedY += gravity * delta;
 
     if (x > 640) {
       speedX *= -1;

@@ -46,18 +46,18 @@ class Tileset {
   /// [extraSpacing] and [extraMargin] should be set when using the Phaser Tile Extruder (https://github.com/sporadic-labs/tile-extruder) after creating a map.
   Tileset.fromElement(xml.XmlElement element, var atlas,
       [int extraSpacing = 0, int extraMargin = 0]) {
-    tilecount = _parseAttrib(element, "tilecount", int.parse);
+    tilecount = _parseAttrib(element, 'tilecount', int.parse);
 
-    tileWidth = _parseAttrib(element, "tilewidth", int.parse);
-    tileHeight = _parseAttrib(element, "tileheight", int.parse);
+    tileWidth = _parseAttrib(element, 'tilewidth', int.parse);
+    tileHeight = _parseAttrib(element, 'tileheight', int.parse);
 
-    tileMargin = _parseAttrib(element, "margin", int.parse, 0);
-    tileSpacing = _parseAttrib(element, "spacing", int.parse, 0);
+    tileMargin = _parseAttrib(element, 'margin', int.parse, 0);
+    tileSpacing = _parseAttrib(element, 'spacing', int.parse, 0);
     tileMargin += extraMargin;
     tileSpacing += extraSpacing;
 
-    basicTiles = Map<int, BasicTile>();
-    tiles = Map<int, Tile>();
+    basicTiles = {};
+    tiles = {};
 
     // Split texture for tileset mode
     if (atlas is Texture) {
@@ -67,21 +67,21 @@ class Tileset {
         basicTiles[i + firstGID] = BasicTile(i, textures[i]);
       }
     } else if (atlas is Map<String, Texture>) {
-      element.findElements("tile").forEach((tile) {
-        int id = int.parse(tile.getAttribute("id"));
+      element.findElements('tile').forEach((tile) {
+        int id = int.parse(tile.getAttribute('id'));
         String source = path.basenameWithoutExtension(
-            tile.findElements("image").first.getAttribute("source"));
+            tile.findElements('image').first.getAttribute('source'));
         basicTiles[id + firstGID] = BasicTile(id, atlas[source], tile);
       });
     } else {
-      throw ArgumentError("Atlas must be a Texture or a Texture Atlas");
+      throw ArgumentError('Atlas must be a Texture or a Texture Atlas');
     }
 
     tiles.addAll(basicTiles);
 
-    element.findElements("tile").forEach((tile) {
-      int id = int.parse(tile.getAttribute("id")) + firstGID;
-      if (tile.findElements("animation").isNotEmpty) {
+    element.findElements('tile').forEach((tile) {
+      int id = int.parse(tile.getAttribute('id')) + firstGID;
+      if (tile.findElements('animation').isNotEmpty) {
         tiles[id] = AnimatedTile(id, tile, firstGID, basicTiles);
       } else {
         tiles[id] = BasicTile(id, basicTiles[id].texture, tile);
@@ -107,7 +107,7 @@ class Tileset {
   }
 
   /// Updates the tileset, for animations.
-  update(double delta) {
+  void update(double delta) {
     for(Tile tile in tiles.values) {
       tile.update(delta);
     }

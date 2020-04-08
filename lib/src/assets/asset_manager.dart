@@ -25,7 +25,7 @@ class AssetManager {
   /// Begins loading an asset. Assets can later be retrieved by [get].
   void load(String source, Future asset) {
     if(_toLoad.containsKey(source)) {
-      throw ArgumentError("Source must be unique for every asset.");
+      throw ArgumentError('Source must be unique for every asset.');
     }
     _toLoad[source] = asset;
     asset.then((data) {

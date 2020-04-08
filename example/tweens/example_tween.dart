@@ -11,13 +11,13 @@ class TweenExample extends BaseGame {
   Box box;
 
   @override
-  create() {
+  void create() {
     camera = Camera2D.originBottomLeft(width, height);
     renderer = SpriteBatch.defaultShader(gl);
 
     gl.setGLViewport(canvasWidth, canvasHeight);
 
-    rock = assetManager.get("rock.png");
+    rock = assetManager.get('rock.png');
 
     box = Box(0.0, 0.0);
 
@@ -31,7 +31,7 @@ class TweenExample extends BaseGame {
       ..duration = 10.0
       ..delay = 1.0
       ..ease = Ease.backInOut
-      ..callback = (() => print("Tween 1 Complete"))
+      ..callback = (() => print('Tween 1 Complete'))
       ..chain(Tween()
         ..get = getPos
         ..set = setPos
@@ -42,12 +42,12 @@ class TweenExample extends BaseGame {
   }
 
   @override
-  preload() {
-    assetManager.load("rock.png", loadTexture(gl, "tweens/rock.png", nearest));
+  void preload() {
+    assetManager.load('rock.png', loadTexture(gl, 'tweens/rock.png', nearest));
   }
 
   @override
-  render(double delta) {
+  void render(double delta) {
     gl.clearScreen(0.0, 0.0, 0.0, 1.0);
 
     camera.update();
@@ -60,15 +60,16 @@ class TweenExample extends BaseGame {
     renderer.end();
   }
 
-  resize(int width, int height) {
+  @override
+  void resize(int width, int height) {
     gl.setGLViewport(canvasWidth, canvasHeight);
   }
 
   @override
-  update(double delta) {}
+  void update(double delta) {}
 
   @override
-  config() {
+  void config() {
     scaleMode = ScaleMode.fit;
   }
 }

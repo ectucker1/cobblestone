@@ -55,25 +55,23 @@ class Tilemap {
   Tilemap(this.file, {this.tileset, dynamic atlas,
     int extraSpacing = 0, int extraMargin = 0}) {
     if (tileset == null && atlas == null) {
-      throw ArgumentError("Either a tileset or an atlas must be provided");
+      throw ArgumentError('Either a tileset or an atlas must be provided');
     }
 
-    this.width = int.parse(file.rootElement.getAttribute("width"));
-    this.height = int.parse(file.rootElement.getAttribute("height"));
+    width = int.parse(file.rootElement.getAttribute('width'));
+    height = int.parse(file.rootElement.getAttribute('height'));
 
-    this.tileWidth = int.parse(file.rootElement.getAttribute("tilewidth"));
-    this.tileHeight = int.parse(file.rootElement.getAttribute("tileheight"));
+    tileWidth = int.parse(file.rootElement.getAttribute('tilewidth'));
+    tileHeight = int.parse(file.rootElement.getAttribute('tileheight'));
 
-    if (tileset == null) {
-      tileset = Tileset.fromElement(
-          file.rootElement.findElements("tileset").first, atlas,
-          extraSpacing, extraMargin);
-    }
+    tileset ??= Tileset.fromElement(
+        file.rootElement.findElements('tileset').first, atlas,
+        extraSpacing, extraMargin);
 
-    for (xml.XmlElement layer in file.rootElement.findElements("layer")) {
+    for (xml.XmlElement layer in file.rootElement.findElements('layer')) {
       layers.add(TileLayer(this, layer));
     }
-    for (xml.XmlElement group in file.rootElement.findElements("objectgroup")) {
+    for (xml.XmlElement group in file.rootElement.findElements('objectgroup')) {
       objectGroups.add(ObjectGroup(this, group));
     }
 
@@ -81,12 +79,12 @@ class Tilemap {
   }
 
   /// Updates the tilemap, for animations.
-  update(double delta) {
+  void update(double delta) {
     tileset.update(delta);
   }
 
   /// Renders the tilemap layers. If [filter] is set, only renders the layers with names selected by the it.
-  render(SpriteBatch batch, num x, num y, Camera2D camera, {Pattern filter}) {
+  void render(SpriteBatch batch, num x, num y, Camera2D camera, {Pattern filter}) {
     if (filter == null) {
       for (TileLayer layer in layers) {
         layer.render(batch, x, y, camera);
@@ -133,15 +131,15 @@ class TileLayer {
 
   /// Creates a new tile layer from TMX data.
   TileLayer(this.parent, xml.XmlElement layer) {
-    width = int.parse(layer.getAttribute("width"));
-    height = int.parse(layer.getAttribute("height"));
+    width = int.parse(layer.getAttribute('width'));
+    height = int.parse(layer.getAttribute('height'));
 
-    name = layer.getAttribute("name");
+    name = layer.getAttribute('name');
 
-    xml.XmlElement data = layer.findElements("data").first;
-    if (data.getAttribute("encoding") == "csv") {
+    xml.XmlElement data = layer.findElements('data').first;
+    if (data.getAttribute('encoding') == 'csv') {
       _tileIds = _parseCsv(data.text, int.parse);
-    } else if (data.getAttribute("encoding") == "base64") {
+    } else if (data.getAttribute('encoding') == 'base64') {
       _tileIds = base64.decode(data.text);
     }
 
@@ -155,20 +153,16 @@ class TileLayer {
   }
 
   /// Renders this tile layer to given [batch].
-  render(SpriteBatch batch, num x, num y, Camera2D camera) {
+  void render(SpriteBatch batch, num x, num y, Camera2D camera) {
     double startX = min(min(camera.view.point0.x, camera.view.point1.x),
-            min(camera.view.point2.x, camera.view.point3.x)) -
-        x;
+            min(camera.view.point2.x, camera.view.point3.x)) - x;
     double startY = min(min(camera.view.point0.y, camera.view.point1.y),
-            min(camera.view.point2.y, camera.view.point3.y)) -
-        y;
+            min(camera.view.point2.y, camera.view.point3.y)) - y;
 
     double endX = max(max(camera.view.point0.x, camera.view.point1.x),
-            max(camera.view.point2.x, camera.view.point3.x)) -
-        x;
+            max(camera.view.point2.x, camera.view.point3.x)) - x;
     double endY = max(max(camera.view.point0.y, camera.view.point1.y),
-            max(camera.view.point2.y, camera.view.point3.y)) -
-        y;
+            max(camera.view.point2.y, camera.view.point3.y)) - y;
 
     for (int row = max(startY ~/ tileHeight, 0);
         row < min(endY ~/ tileHeight + 1, height);
@@ -206,9 +200,9 @@ class ObjectGroup {
 
   /// Creates a new object group from TMX data.
   ObjectGroup(this.map, xml.XmlElement group) {
-    name = group.getAttribute("name");
+    name = group.getAttribute('name');
 
-    for (xml.XmlElement object in group.findElements("object")) {
+    for (xml.XmlElement object in group.findElements('object')) {
       objects.add(MapObject.load(this, object));
     }
 

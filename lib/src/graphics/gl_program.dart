@@ -16,10 +16,9 @@ class ShaderProgram {
   gl.RenderingContext _context;
 
   /// List of vertex attribute names and locations.
-  Map<String, int> attributes = Map<String, int>();
+  Map<String, int> attributes = {};
   /// List of uniform names and locations.
-  Map<String, gl.UniformLocation> uniforms =
-      Map<String, gl.UniformLocation>();
+  Map<String, gl.UniformLocation> uniforms = {};
 
   /// The complete GL program to be used in rendering.
   gl.Program program;
@@ -47,7 +46,7 @@ class ShaderProgram {
     _context.linkProgram(program);
 
     if (!_context.getProgramParameter(program, WebGL.LINK_STATUS)) {
-      print("Cobblestone: Warning: could not initialise shaders");
+      print('Cobblestone: Warning: could not initialise shaders');
       print(_context.getShaderInfoLog(vertShader));
       print(_context.getShaderInfoLog(fragShader));
     }
@@ -69,9 +68,9 @@ class ShaderProgram {
   }
 
   /// Enables vertex attributes and tells WebGL to use this program.
-  startProgram() {
-    attributes
-        .forEach((name, location) => _context.enableVertexAttribArray(location));
+  void startProgram() {
+    attributes.forEach((name, location) =>
+        _context.enableVertexAttribArray(location));
     _context.useProgram(program);
   }
 
@@ -80,7 +79,7 @@ class ShaderProgram {
   /// These can be of type int, double, [Vector2], [Vector3], [Vector4], [Matrix4] or lists of the above.
   ///
   /// [isInt] must be set to true for integer uniforms, due to JS limitations
-  setUniform(String name, dynamic value, [bool isInt = false]) {
+  void setUniform(String name, dynamic value, [bool isInt = false]) {
     if(isInt) {
       // Integer uniforms and integer vectors
       if(value is num) {
@@ -149,7 +148,7 @@ class ShaderProgram {
   /// Disables program vertex attributes.
   ///
   /// A new program will need to be started before rendering again.
-  endProgram() {
+  void endProgram() {
     attributes
         .forEach((name, location) => _context.disableVertexAttribArray(location));
   }

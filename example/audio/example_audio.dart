@@ -10,34 +10,35 @@ class AudioExample extends BaseGame {
   Sound sound;
 
   @override
-  create() {
+  void create() {
     camera = Camera2D.originBottomLeft(width, height);
 
     gl.setGLViewport(canvasWidth, canvasHeight);
 
-    music = assetManager.get("technogeek");
-    sound = assetManager.get("wind");
+    music = assetManager.get('technogeek');
+    sound = assetManager.get('wind');
   }
 
   @override
-  preload() {
-    assetManager.load("technogeek", loadMusic(audio, "audio/technogeek.ogg"));
-    assetManager.load("wind", loadSound(audio, "audio/wind.wav"));
+  void preload() {
+    assetManager.load('technogeek', loadMusic(audio, 'audio/technogeek.ogg'));
+    assetManager.load('wind', loadSound(audio, 'audio/wind.wav'));
   }
 
   @override
-  render(double delta) {
+  void render(double delta) {
     gl.clearScreen(0.0, 0.0, 0.0, 1.0);
 
     camera.update();
   }
 
-  resize(int width, int height) {
+  @override
+  void resize(int width, int height) {
     gl.setGLViewport(canvasWidth, canvasHeight);
   }
 
   @override
-  update(double delta) {
+  void update(double delta) {
     if (keyboard.keyJustPressed(KeyCode.ONE)) {
       sound.play();
     } else if (keyboard.keyJustPressed(KeyCode.TWO)) {

@@ -12,8 +12,8 @@ Future<Map<String, Texture>> loadAtlas(
 
   Map<String, Texture> atlas = Map.fromIterable(regions, key: (region) => region[0], value: (region) {
     List vars = region[1];
-    List xy = vars.firstWhere((variable) => variable[0] == "xy")[1];
-    List size = vars.firstWhere((variable) => variable[0] == "size")[1];
+    List xy = vars.firstWhere((variable) => variable[0] == 'xy')[1];
+    List size = vars.firstWhere((variable) => variable[0] == 'size')[1];
 
     Texture regionTexture = Texture.clone(atlasTexture);
     regionTexture.setRegion(xy[0], regionTexture.height - size[1] - xy[1], size[0], size[1]);

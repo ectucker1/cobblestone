@@ -5,7 +5,7 @@ class AtlasExample extends BaseGame {
   Camera2D camera;
 
   @override
-  create() {
+  void create() {
     camera = Camera2D.originBottomLeft(width, height);
     renderer = SpriteBatch.defaultShader(gl);
 
@@ -13,33 +13,34 @@ class AtlasExample extends BaseGame {
   }
 
   @override
-  preload() {
-    assetManager.load("atlasTex", loadTexture(gl, "atlas/atlas.png", nearest));
-    assetManager.load("atlas",
-        loadAtlas("atlas/atlas.atlas", assetManager.getLoading("atlasTex")));
+  void preload() {
+    assetManager.load('atlasTex', loadTexture(gl, 'atlas/atlas.png', nearest));
+    assetManager.load('atlas',
+        loadAtlas('atlas/atlas.atlas', assetManager.getLoading('atlasTex')));
   }
 
   @override
-  render(double delta) {
+  void render(double delta) {
     gl.clearScreen(0.0, 1.0, 1.0, 1.0);
 
     camera.update();
 
     renderer.projection = camera.combined;
     renderer.begin();
-    renderer.draw(assetManager.get("atlas")["spriteA"], 0, 0,
+    renderer.draw(assetManager.get('atlas')['spriteA'], 0, 0,
         width: 64, height: 64);
-    renderer.draw(assetManager.get("atlas")["spriteB"], 64, 0,
+    renderer.draw(assetManager.get('atlas')['spriteB'], 64, 0,
         width: 64, height: 64);
-    renderer.draw(assetManager.get("atlas")["spriteC"], 128, 0,
+    renderer.draw(assetManager.get('atlas')['spriteC'], 128, 0,
         width: 64, height: 64);
     renderer.end();
   }
 
-  resize(int width, int height) {
+  @override
+  void resize(int width, int height) {
     gl.setGLViewport(canvasWidth, canvasHeight);
   }
 
   @override
-  update(double delta) {}
+  void update(double delta) {}
 }

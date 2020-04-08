@@ -4,10 +4,10 @@ part of cobblestone;
 class Mouse {
   /// Width and height of the [BaseGame]
   int _width, _height;
-  CanvasElement _canvas;
+  final CanvasElement _canvas;
 
   /// A list of subscription events used to get mouse data
-  List<StreamSubscription> _subs = [];
+  final List<StreamSubscription> _subs = [];
 
   /// The current position of the mouse on the game canvas
   Vector2 canvasPos = Vector2.zero();
@@ -20,14 +20,11 @@ class Mouse {
   /// Ratio of CSS to canvas pixels; used for HDPI support
   double _pixelRatio;
 
-  /// Temporary variable used for camera unprojection
-  Vector3 _coordTransform = Vector3.zero();
-
   /// A map between button numbers and the time the key was pressed
-  Map<int, num> _buttons = Map<int, num>();
+  final Map<int, num> _buttons = {};
 
   /// A map of buttons pressed last frame
-  Map<int, num> _lastButtons = Map<int, num>();
+  final Map<int, num> _lastButtons = {};
 
   /// Returns true if the left mouse button is currently down
   bool get leftDown => _buttons.containsKey(0);
@@ -99,28 +96,29 @@ class Mouse {
 
   /// Returns the coordinates of the point in a scene rendered through [camera] which would project to the current mouse position
   Vector2 worldCoord(Camera2D camera) {
+    Vector3 coordTransform = Vector3.zero();
     unproject(camera.projection, 0.0, _width, 0.0, _height,
-        screenPos.x, screenPos.y, 1.0, _coordTransform);
-    _coordTransform = camera.transform.combined.transform3(_coordTransform);
-    return _coordTransform.xy;
+        screenPos.x, screenPos.y, 1.0, coordTransform);
+    coordTransform = camera.transform.combined.transform3(coordTransform);
+    return coordTransform.xy;
   }
 
   /// Moves the mouse into the next logical "frame".
   ///
   /// Automatically called in [BaseGame] but may be used for a implementing a custom timestep.
-  update() {
+  void update() {
     _lastButtons.clear();
     _lastButtons.addAll(_buttons);
   }
 
-  _resize(int width, int height) {
-    this._width = width;
-    this._height = height;
+  void _resize(int width, int height) {
+    _width = width;
+    _height = height;
 
     _pixelRatio = handleHDPI ? window.devicePixelRatio : 1;
   }
 
-  _cancelSubs() {
+  void _cancelSubs() {
     for (var sub in _subs) {
       sub.cancel();
     }

@@ -6,10 +6,10 @@ part of cobblestone;
 class TweenManager {
 
   // List of tweens in the manager.
-  List<Tween> _activeTweens = [];
+  final List<Tween> _activeTweens = [];
 
   // Buffer of tweens to add before the next update.
-  List<Tween> _tweensToAdd = [];
+  final List<Tween> _tweensToAdd = [];
 
   /// Creates a new tween manager.
   ///
@@ -17,12 +17,12 @@ class TweenManager {
   TweenManager();
 
   /// Adds a tween to the manager.
-  add(Tween tween) {
+  void add(Tween tween) {
     _tweensToAdd.add(tween);
   }
 
   /// Updates all tweens in the manager.
-  update(double delta) {
+  void update(double delta) {
     for(var tween in _tweensToAdd) {
       _activeTweens.add(tween);
     }

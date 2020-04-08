@@ -2,19 +2,24 @@ part of cobblestone;
 
 /// A batch of bounding boxes, drawn in wireframe.
 class DebugBatch extends VertexBatch {
+  @override
   int maxSprites = 2000;
 
+  @override
   final int drawMode = WebGL.LINES;
 
+  @override
   final int vertexSize = 4;
+  @override
   final int verticesPerSprite = 2;
+  @override
   final int indicesPerSprite = 2;
 
   /// The number of segments to render when drawing ellipses.
   int ellipseResolution = 20;
 
-  Vector3 _point = Vector3.zero();
-  Vector3 _point2 = Vector3.zero();
+  final Vector3 _point = Vector3.zero();
+  final Vector3 _point2 = Vector3.zero();
 
   Vector4 _color = Colors.white;
   double _packedColor = packColor(Colors.white);
@@ -35,7 +40,7 @@ class DebugBatch extends VertexBatch {
   }
 
   @override
-  setAttribPointers() {
+  void setAttribPointers() {
     _context.vertexAttribPointer(shaderProgram.attributes[vertPosAttrib], 3,
         WebGL.FLOAT, false, vertexSize * 4, 0);
     _context.vertexAttribPointer(shaderProgram.attributes[colorAttrib], 4,
@@ -43,7 +48,7 @@ class DebugBatch extends VertexBatch {
   }
 
   @override
-  createIndices() {
+  void createIndices() {
     for (int i = 0; i < indices.length; i++) {
       indices[i] = i;
     }
@@ -53,7 +58,7 @@ class DebugBatch extends VertexBatch {
   }
 
   /// Draws a line from [start] to [end].
-  drawLine(Vector2 start, Vector2 end) {
+  void drawLine(Vector2 start, Vector2 end) {
     if(spritesInFlush >= maxSprites) {
       flush();
     }
@@ -72,7 +77,7 @@ class DebugBatch extends VertexBatch {
   }
 
   /// Draws an [Aabb2] or [Obb3], flattened on the z-axis.
-  drawBox(dynamic box) {
+  void drawBox(dynamic box) {
     if (box is Aabb2) {
       drawLine(box.max, Vector2(box.min.x, box.max.y));
       drawLine(Vector2(box.min.x, box.max.y), box.min);
@@ -92,7 +97,7 @@ class DebugBatch extends VertexBatch {
   }
 
   /// Draws a representation of the given [MapObject].
-  drawMap(MapObject object) {
+  void drawMap(MapObject object) {
     if(object is MapRect) {
       drawLine(object.pos, object.pos + Vector2(object.width, 0));
       drawLine(object.pos + Vector2(object.width, 0),

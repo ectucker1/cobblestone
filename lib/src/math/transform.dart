@@ -18,7 +18,7 @@ class Transform {
   /// If true, [translation] and [scale] are rounded to integers when creating the [combined] and [invCombined] matrices.
   bool roundInt;
 
-  Vector2 _temp = Vector2.zero();
+  final Vector2 _temp = Vector2.zero();
 
   /// Creates a new transform that applies no change.
   Transform.identity() {

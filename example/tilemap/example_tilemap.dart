@@ -15,7 +15,7 @@ class TilemapExample extends BaseGame {
   bool useAtlas = false;
 
   @override
-  create() {
+  void create() {
     gl.setGLViewport(canvasWidth, canvasHeight);
     camera = Camera2D.originBottomLeft(32 * 16, 18 * 16);
     camera.transform.roundInt = true;
@@ -23,37 +23,37 @@ class TilemapExample extends BaseGame {
     renderer = SpriteBatch.defaultShader(gl);
     debug = DebugBatch.defaultShader(gl);
 
-    extrudedMap = assetManager.get("extruded.tmx");
-    atlasMap = assetManager.get("atlased.tmx");
+    extrudedMap = assetManager.get('extruded.tmx');
+    atlasMap = assetManager.get('atlased.tmx');
   }
 
   @override
-  config() {
+  void config() {
     scaleMode = ScaleMode.fit;
     requestedWidth = 32 * 16;
     requestedHeight = 18 * 16;
   }
 
   @override
-  preload() {
-    assetManager.load("atlas.png",
-        loadTexture(gl, "tilemap/atlas.png", nearest));
-    assetManager.load("atlas.atlas", loadAtlas("tilemap/atlas.atlas",
-        assetManager.getLoading("atlas.png")));
-    assetManager.load("tiles.tsx", loadTileset("tilemap/tiles.tsx",
-        assetManager.getLoading("atlas.atlas")));
-    assetManager.load("atlased.tmx", loadTilemap("tilemap/islands3.tmx",
-        tileset: assetManager.getLoading("tiles.tsx")));
+  void preload() {
+    assetManager.load('atlas.png',
+        loadTexture(gl, 'tilemap/atlas.png', nearest));
+    assetManager.load('atlas.atlas', loadAtlas('tilemap/atlas.atlas',
+        assetManager.getLoading('atlas.png')));
+    assetManager.load('tiles.tsx', loadTileset('tilemap/tiles.tsx',
+        assetManager.getLoading('atlas.atlas')));
+    assetManager.load('atlased.tmx', loadTilemap('tilemap/islands3.tmx',
+        tileset: assetManager.getLoading('tiles.tsx')));
 
     assetManager.load(
-        "tileset", loadTexture(gl, "tilemap/floating_islands_extruded.png"));
-    assetManager.load("extruded.tmx", loadTilemap("tilemap/islands.tmx",
-        atlas: assetManager.getLoading("tileset"),
+        'tileset', loadTexture(gl, 'tilemap/floating_islands_extruded.png'));
+    assetManager.load('extruded.tmx', loadTilemap('tilemap/islands.tmx',
+        atlas: assetManager.getLoading('tileset'),
         extraMargin: 1, extraSpacing: 2));
   }
 
   @override
-  render(double delta) {
+  void render(double delta) {
     gl.clearScreen(41 / 256, 38 / 256, 52 / 256, 1.0);
 
     camera.update();
@@ -87,20 +87,21 @@ class TilemapExample extends BaseGame {
       debug.projection = camera.combined;
       debug.begin();
       for (MapObject object in atlasMap.objectGroups.first.objects) {
-        debug.color = object.properties["color"];
+        debug.color = object.properties['color'];
         debug.drawMap(object);
       }
       debug.end();
     }
   }
 
-  resize(int width, int height) {
+  @override
+  void resize(int width, int height) {
     gl.setGLViewport(canvasWidth, canvasHeight);
     camera = Camera2D.originBottomLeft(32 * 16, 18 * 16);
   }
 
   @override
-  update(double delta) {
+  void update(double delta) {
     if (keyboard.keyJustPressed(KeyCode.W)) north = true;
     if (keyboard.keyJustPressed(KeyCode.D)) east = true;
     if (keyboard.keyJustPressed(KeyCode.S)) south = true;

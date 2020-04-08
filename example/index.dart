@@ -33,7 +33,7 @@ var advancedDemoConstructors = [
   () => LightingExample()
 ];
 
-main() {
+void main() {
   var featureList = querySelector('#features');
   for (var demo in featureDemoNames) {
     featureList.append(makeDemoLink(demo));
@@ -47,10 +47,10 @@ main() {
   example = featureDemoConstructors[0]();
 }
 
-makeDemoLink(String demo) {
+Element makeDemoLink(String demo) {
   AnchorElement demoLink = AnchorElement()
     ..onClick.listen((e) => switchTo(demo))
-    ..href = "#${demo}"
+    ..href = '#${demo}'
     ..text = demo;
 
   AnchorElement sourceLink = AnchorElement()
@@ -60,7 +60,7 @@ makeDemoLink(String demo) {
 
   Element group = ParagraphElement()
     ..append(demoLink)
-    ..appendText(" - ")
+    ..appendText(' - ')
     ..append(sourceLink);
 
   Element li = Element.li()..append(group);
@@ -68,7 +68,7 @@ makeDemoLink(String demo) {
   return li;
 }
 
-switchTo(String demo) {
+void switchTo(String demo) {
   example.stop();
   if (featureDemoNames.contains(demo)) {
     example = featureDemoConstructors[featureDemoNames.indexOf(demo)]();

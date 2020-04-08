@@ -110,22 +110,22 @@ class Texture {
 
   /// Creates a clone of another texture. Both reference the same WebGL texture, but can have independent texture coordinates.
   Texture.clone(Texture other) {
-    this.wrapper = other.wrapper;
-    this._context = other._context;
+    wrapper = other.wrapper;
+    _context = other._context;
 
-    this.texture = other.texture;
+    texture = other.texture;
 
-    this.source = other.source;
-    this.sourceWidth = other.sourceWidth;
-    this.sourceHeight = other.sourceHeight;
+    source = other.source;
+    sourceWidth = other.sourceWidth;
+    sourceHeight = other.sourceHeight;
 
-    this.width = other.width;
-    this.height = other.height;
+    width = other.width;
+    height = other.height;
 
-    this.u = other.u;
-    this.v = other.v;
-    this.u2 = other.u2;
-    this.v2 = other.v2;
+    u = other.u;
+    v = other.v;
+    u2 = other.u2;
+    v2 = other.v2;
   }
 
   /// Creates an empty texture. Should later be filled with data using WebGL functions.
@@ -145,19 +145,19 @@ class Texture {
         WebGL.UNSIGNED_BYTE, null);
     _context.bindTexture(WebGL.TEXTURE_2D, null);
 
-    this.source = "None";
+    source = 'None';
 
-    this.sourceWidth = width;
-    this.sourceHeight = height;
+    sourceWidth = width;
+    sourceHeight = height;
 
-    this.u = 0;
-    this.v = 0;
-    this.u2 = 1;
-    this.v2 = 1;
+    u = 0;
+    v = 0;
+    u2 = 1;
+    v2 = 1;
   }
 
   /// Sets the bounds of the texture, using y-up coordinates from the bottom left.
-  setRegion(int x, int y, int width, int height) {
+  void setRegion(int x, int y, int width, int height) {
     double invTexWidth = 1.0 / sourceWidth;
     double invTexHeight = 1.0 / sourceHeight;
     setRegionCoords(x * invTexWidth, y * invTexHeight,
@@ -168,7 +168,7 @@ class Texture {
   }
 
   /// Sets the uv coordinates of the texture manually.
-  setRegionCoords(double u, double v, double u2, double v2) {
+  void setRegionCoords(double u, double v, double u2, double v2) {
     width = ((u2 - u).abs() * sourceWidth).round();
     height = ((v2 - v).abs() * sourceHeight).round();
 

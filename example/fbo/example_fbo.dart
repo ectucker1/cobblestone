@@ -13,27 +13,27 @@ class FBOExample extends BaseGame {
   double rot = 0.0;
 
   @override
-  create() {
+  void create() {
     camera = Camera2D.originBottomLeft(width, height);
     renderer = SpriteBatch.defaultShader(gl);
 
     gl.setGLViewport(canvasWidth, canvasHeight);
 
-    rock = assetManager.get("rock.png");
-    effect = assetManager.get("effect");
+    rock = assetManager.get('rock.png');
+    effect = assetManager.get('effect');
 
     fbo = Framebuffer(gl, canvasWidth, canvasHeight, shader: effect);
   }
 
   @override
-  preload() {
-    assetManager.load("rock.png", loadTexture(gl, "fbo/rock.png", nearest));
+  void preload() {
+    assetManager.load('rock.png', loadTexture(gl, 'fbo/rock.png', nearest));
     assetManager.load(
-        "effect", loadProgram(gl, "fbo/effect.vertex", "fbo/effect.fragment"));
+        'effect', loadProgram(gl, 'fbo/effect.vertex', 'fbo/effect.fragment'));
   }
 
   @override
-  render(double delta) {
+  void render(double delta) {
     fbo.beginCapture();
     gl.clearScreen(0.0, 0.0, 0.0, 1.0);
 
@@ -70,12 +70,13 @@ class FBOExample extends BaseGame {
     fbo.render(camera.projection, 20, 20, width, height);
   }
 
-  resize(int width, int height) {
+  @override
+  void resize(int width, int height) {
     gl.setGLViewport(canvasWidth, canvasHeight);
   }
 
   @override
-  update(double delta) {
+  void update(double delta) {
     rot += 0.5 * delta;
   }
 }

@@ -43,43 +43,43 @@ class BitmapFont {
 
   /// Creates a font from the contents of a .fnt file and a texture.
   BitmapFont.parse(String description, this.texture) {
-    this._data = _fontParser.parse(description).value;
+    _data = _fontParser.parse(description).value;
 
-    var info = _data.firstWhere((e) => e[0] == "info")[1];
-    size = _getVariable(info, "size");
+    var info = _data.firstWhere((e) => e[0] == 'info')[1];
+    size = _getVariable(info, 'size');
 
-    var common = _data.firstWhere((e) => e[0] == "common")[1];
-    lineHeight = _getVariable(common, "lineHeight");
-    base = _getVariable(common, "base");
+    var common = _data.firstWhere((e) => e[0] == 'common')[1];
+    lineHeight = _getVariable(common, 'lineHeight');
+    base = _getVariable(common, 'base');
 
-    this._characters = {};
-    _data.where((e) => e[0] == "char").forEach((e) {
+    _characters = {};
+    _data.where((e) => e[0] == 'char').forEach((e) {
       var props = e[1];
-      _characters[_getVariable(props, "id")] = _Character(
-          _getVariable(props, "id"),
-          _getVariable(props, "x"),
-          _getVariable(props, "y"),
-          _getVariable(props, "width"),
-          _getVariable(props, "height"),
-          _getVariable(props, "xoffset"),
-          _getVariable(props, "yoffset"),
-          _getVariable(props, "xadvance"),
+      _characters[_getVariable(props, 'id')] = _Character(
+          _getVariable(props, 'id'),
+          _getVariable(props, 'x'),
+          _getVariable(props, 'y'),
+          _getVariable(props, 'width'),
+          _getVariable(props, 'height'),
+          _getVariable(props, 'xoffset'),
+          _getVariable(props, 'yoffset'),
+          _getVariable(props, 'xadvance'),
           texture);
     });
 
-    this._kernings = {};
-    _data.where((e) => e[0] == "kerning").forEach((e) {
+    _kernings = {};
+    _data.where((e) => e[0] == 'kerning').forEach((e) {
       var props = e[1];
-      int second = _getVariable(props, "second");
+      int second = _getVariable(props, 'second');
       _kernings.putIfAbsent(second, () => []);
-      _kernings[second].add(_Kerning(_getVariable(props, "first"),
-          _getVariable(props, "second"), _getVariable(props, "amount")));
+      _kernings[second].add(_Kerning(_getVariable(props, 'first'),
+          _getVariable(props, 'second'), _getVariable(props, 'amount')));
     });
 
     _space = _characters[' '.codeUnitAt(0)];
   }
 
-  _getVariable(line, String name) {
+  dynamic _getVariable(line, String name) {
     return line.firstWhere((e) => e[0] == name)[2];
   }
 
@@ -166,7 +166,7 @@ class BitmapFont {
   /// Breaks up a word that would measure longer than [maxLength].
   Iterable<String> limitedWords(String word, int maxLength) {
     List<String> results = [];
-    String current = "";
+    String current = '';
     for (var char in word.split('')) {
       current += char;
       if (measureWord(current + '-') > maxLength) {
@@ -186,7 +186,7 @@ class BitmapFont {
 
     Queue<String> words = Queue.from(text.split(' '));
 
-    String lineText = "";
+    String lineText = '';
     int cursor = 0;
     while (words.isNotEmpty) {
       String word = words.removeFirst();
@@ -202,9 +202,9 @@ class BitmapFont {
       if (cursor + width > lineWidth) {
         lines.add(_Line(lineText.trim(), cursor - _space.xadvance));
         cursor = 0;
-        lineText = "";
+        lineText = '';
       }
-      lineText += word + " ";
+      lineText += word + ' ';
       cursor += width;
       cursor += _space.xadvance;
     }
@@ -238,7 +238,7 @@ class _Character {
 
   _Character(this.id, this.x, this.y, this.width, this.height, this.xoffset,
       this.yoffset, this.xadvance, this.font) {
-    this.glyph = Texture.clone(font);
+    glyph = Texture.clone(font);
     glyph.setRegion(x, font.height - y - height, width, height);
   }
 }

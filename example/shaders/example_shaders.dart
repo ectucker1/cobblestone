@@ -10,27 +10,27 @@ class ShaderExample extends BaseGame {
   double angleWave = 0.0;
 
   @override
-  create() {
+  void create() {
     camera = Camera2D.originBottomLeft(width, height);
-    renderer = SpriteBatch(gl, assetManager.get("water"));
+    renderer = SpriteBatch(gl, assetManager.get('water'));
     renderer.setAdditionalUniforms = () {
-      renderer.setUniform("waveData", Vector2(angleWave, 0.9));
-      renderer.setUniform("uLightColor", Colors.navy);
+      renderer.setUniform('waveData', Vector2(angleWave, 0.9));
+      renderer.setUniform('uLightColor', Colors.navy);
     };
 
     gl.setGLViewport(canvasWidth, canvasHeight);
 
-    water = assetManager.get("water.png");
+    water = assetManager.get('water.png');
   }
 
   @override
-  preload() {
-    assetManager.load("water.png", loadTexture(gl, "shaders/water.png"));
-    assetManager.load("water", loadProgram(gl, "shaders/water.vertex", "shaders/ambient.fragment"));
+  void preload() {
+    assetManager.load('water.png', loadTexture(gl, 'shaders/water.png'));
+    assetManager.load('water', loadProgram(gl, 'shaders/water.vertex', 'shaders/ambient.fragment'));
   }
 
   @override
-  render(double delta) {
+  void render(double delta) {
     gl.clearScreen(0.0, 0.0, 0.0, 1.0);
 
     camera.update();
@@ -45,12 +45,13 @@ class ShaderExample extends BaseGame {
     renderer.end();
   }
 
-  resize(int width, int height) {
+  @override
+  void resize(int width, int height) {
     gl.setGLViewport(canvasWidth, canvasHeight);
   }
 
   @override
-  update(double delta) {
+  void update(double delta) {
     angleWave += delta * 5.0;
     while (angleWave > pi * 2) {
       angleWave -= pi * 2;

@@ -10,9 +10,9 @@ class FontExample extends BaseGame {
   String text;
 
   @override
-  create() {
-    font = assetManager.get("font");
-    text = assetManager.get("lipsum");
+  void create() {
+    font = assetManager.get('font');
+    text = assetManager.get('lipsum');
 
     camera = Camera2D.originBottomLeft(width, height);
     renderer = SpriteBatch.defaultShader(gl);
@@ -24,13 +24,13 @@ class FontExample extends BaseGame {
   }
 
   @override
-  preload() {
-    assetManager.load("font", loadFont("font/lora.fnt", loadTexture(gl, "font/lora_0.png", linear)));
-    assetManager.load("lipsum", HttpRequest.getString("font/lipsum.txt"));
+  void preload() {
+    assetManager.load('font', loadFont('font/lora.fnt', loadTexture(gl, 'font/lora_0.png', linear)));
+    assetManager.load('lipsum', HttpRequest.getString('font/lipsum.txt'));
   }
 
   @override
-  render(double delta) {
+  void render(double delta) {
     gl.clearScreen(Colors.white);
 
     camera.update();
@@ -44,15 +44,16 @@ class FontExample extends BaseGame {
     renderer.end();
   }
 
-  resize(int width, int height) {
+  @override
+  void resize(int width, int height) {
     gl.setGLViewport(canvasWidth, canvasHeight);
     camera = Camera2D.originBottomLeft(width, height);
   }
 
   @override
-  update(double delta) {}
+  void update(double delta) {}
 
-  firstTween() {
+  void firstTween() {
     Tween()
       ..set = [(v) => textWidth = v.toInt()]
       ..get = [() => textWidth]
@@ -63,7 +64,7 @@ class FontExample extends BaseGame {
       ..start(tweenManager);
   }
 
-  secondTween() {
+  void secondTween() {
     Tween()
       ..set = [(v) => textWidth = v.toInt()]
       ..get = [() => textWidth]
@@ -75,7 +76,7 @@ class FontExample extends BaseGame {
   }
 
   @override
-  config() {
+  void config() {
     scaleMode = ScaleMode.resize;
   }
 }

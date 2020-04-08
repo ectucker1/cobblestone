@@ -233,16 +233,14 @@ class ParticleEmitter {
 
   /// Creates a particle emitter using the given effect.
   ParticleEmitter(this.effect, [this.rand]) {
-    if (rand == null) {
-      rand = Random();
-    }
+    rand ??= Random();
     pos = Vector2.zero();
     particles = [];
     _toRemove = [];
   }
 
   /// Updates all the live particles emitted.
-  update(double delta) {
+  void update(double delta) {
     _toRemove.clear();
     for (Particle particle in particles) {
       particle.update(delta);
@@ -267,7 +265,7 @@ class ParticleEmitter {
   }
 
   /// Draws all emitted particles in the given [batch].
-  draw(SpriteBatch batch) {
+  void draw(SpriteBatch batch) {
     for (Particle particle in particles) {
       batch.color = particle.color;
       batch.draw(
@@ -282,7 +280,7 @@ class ParticleEmitter {
   }
 
   /// Spawns a wave of particles, using the effect's spawn type.
-  spawnWave() {
+  void spawnWave() {
     switch (effect.type) {
       case SpawnType.point:
         spawnParticle(pos + effect.emitterOffset);
@@ -323,14 +321,13 @@ class ParticleEmitter {
   }
 
   /// Spawns a single particle at [pos] moving in direction [angle].
-  spawnParticle(Vector2 pos, [double angle]) {
+  void spawnParticle(Vector2 pos, [double angle]) {
     if (particles.length < effect.maxParticles) {
       Particle particle = Particle(effect);
       particle.texture = effect.texture;
       particle.color = effect.colorStart.clone();
-      particle.rotation = -(angle != null
-          ? angle
-          : _randBetween(effect.minStartRotation, effect.maxStartRotation));
+      particle.rotation = -(angle ??
+          _randBetween(effect.minStartRotation, effect.maxStartRotation));
       particle.rotationSpeed =
           _randBetween(effect.minRotationSpeed, effect.maxRotationSpeed);
       particle.scaleMod = _randBetween(1.0, effect.scaleMultiplier);

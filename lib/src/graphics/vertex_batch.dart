@@ -68,20 +68,20 @@ abstract class VertexBatch {
   }
 
   /// Allocates new typed lists for the vertex and index data.
-  rebuildBuffer() {
+  void rebuildBuffer() {
     vertices = Float32List(maxSprites * vertexSize * verticesPerSprite);
     indices = Int16List(maxSprites * indicesPerSprite);
     createIndices();
   }
 
   /// Sets the [index] and [spritesInFlush] to zero to prepare for a new flush.
-  reset() {
+  void reset() {
     index = 0;
     spritesInFlush = 0;
   }
 
   /// Starts the shader, sets uniforms, and prepares for drawing.
-  begin() {
+  void begin() {
     shaderProgram.startProgram();
 
     setAdditionalUniforms();
@@ -90,7 +90,7 @@ abstract class VertexBatch {
   /// Appends a double value to the vertex buffer, and increments [index].
   ///
   /// Typically used within draw methods in subclasses.
-  appendAttrib(double value) {
+  void appendAttrib(double value) {
     vertices[index] = value;
     index++;
   }
@@ -98,7 +98,7 @@ abstract class VertexBatch {
   /// Creates sequential indices to fill the index buffer.
   ///
   /// Should be overridden for batches that reuse vertices.
-  createIndices() {
+  void createIndices() {
     for (int i = 0; i < indices.length; i++) {
       indices[i] = i;
     }
@@ -108,7 +108,7 @@ abstract class VertexBatch {
   }
 
   /// Draws the batch to the screen, and prepares for new drawing data.
-  flush() {
+  void flush() {
     _context.bindBuffer(WebGL.ARRAY_BUFFER, vertexBuffer);
     _context.bufferData(WebGL.ARRAY_BUFFER, vertices, WebGL.DYNAMIC_DRAW);
     _context.bindBuffer(WebGL.ELEMENT_ARRAY_BUFFER, indexBuffer);
@@ -136,11 +136,11 @@ abstract class VertexBatch {
   void setAttribPointers();
 
   /// Finishes the batch, calling [flush] and ending the shader program.
-  end() {
+  void end() {
     flush();
     if (spritesToEnd > maxSprites) {
       maxSprites = spritesToEnd;
-      print("Cobblestone: Resized batch to ${maxSprites} sprites");
+      print('Cobblestone: Resized batch to ${maxSprites} sprites');
       rebuildBuffer();
     }
     spritesToEnd = 0;

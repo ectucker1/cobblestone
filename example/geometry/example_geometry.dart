@@ -11,22 +11,22 @@ class GeometryExample extends BaseGame {
   double rot = pi / 4;
 
   @override
-  create() {
+  void create() {
     camera = Camera2D.originBottomLeft(width, height);
     renderer = SpriteBatch.defaultShader(gl);
 
     gl.setGLViewport(canvasWidth, canvasHeight);
 
-    rock = assetManager.get("rock.png");
+    rock = assetManager.get('rock.png');
   }
 
   @override
-  preload() {
-    assetManager.load("rock.png", loadTexture(gl, "geometry/rock.png"));
+  void preload() {
+    assetManager.load('rock.png', loadTexture(gl, 'geometry/rock.png'));
   }
 
   @override
-  render(double delta) {
+  void render(double delta) {
     gl.clearScreen(0.0, 0.0, 0.0, 1.0);
 
     camera.update();
@@ -59,17 +59,18 @@ class GeometryExample extends BaseGame {
     renderer.end();
   }
 
-  resize(int width, int height) {
+  @override
+  void resize(int width, int height) {
     gl.setGLViewport(canvasWidth, canvasHeight);
   }
 
   @override
-  update(double delta) {
+  void update(double delta) {
     rot += 0.5 * delta;
   }
 
   @override
-  config() {
+  void config() {
     scaleMode = ScaleMode.fit;
   }
 

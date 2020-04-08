@@ -22,9 +22,9 @@ class LightingExample extends BaseGame {
   Vector3 attenuation = Vector3(0.4, 3.0, 20.0);
 
   @override
-  create() {
+  void create() {
     camera = Camera2D.originBottomLeft(width, height);
-    renderer = SpriteBatch(gl, assetManager.get("lighting"));
+    renderer = SpriteBatch(gl, assetManager.get('lighting'));
     renderer.setAdditionalUniforms = () {
       renderer.setUniform('uLightPos', lightPos);
       renderer.setUniform('uLightColor', lightColor);
@@ -50,19 +50,19 @@ class LightingExample extends BaseGame {
       lightColor.add(Vector4.zero());
     }
 
-    wall = assetManager.get("tileDiffuse");
-    wallNorm = assetManager.get("tileNormal");
+    wall = assetManager.get('tileDiffuse');
+    wallNorm = assetManager.get('tileNormal');
   }
 
   @override
-  preload() {
-    assetManager.load("lighting", loadProgram(gl, "lighting/basic.vertex", "lighting/lighting.fragment"));
-    assetManager.load("tileDiffuse", loadTexture(gl, "lighting/hp_floor_tiles_02.png", linear));
-    assetManager.load("tileNormal", loadTexture(gl, "lighting/hp_floor_tiles_02_norm.png", linear));
+  void preload() {
+    assetManager.load('lighting', loadProgram(gl, 'lighting/basic.vertex', 'lighting/lighting.fragment'));
+    assetManager.load('tileDiffuse', loadTexture(gl, 'lighting/hp_floor_tiles_02.png', linear));
+    assetManager.load('tileNormal', loadTexture(gl, 'lighting/hp_floor_tiles_02_norm.png', linear));
   }
 
   @override
-  render(double delta) {
+  void render(double delta) {
     gl.clearScreen(0.0, 0.0, 0.0, 1.0);
 
     camera.update();
@@ -75,12 +75,13 @@ class LightingExample extends BaseGame {
     renderer.end();
   }
 
-  resize(int width, int height) {
+  @override
+  void resize(int width, int height) {
     gl.setGLViewport(canvasWidth, canvasHeight);
   }
 
   @override
-  update(double delta) {
+  void update(double delta) {
     time += delta;
     for(int i = 0; i < numLights; i++) {
       lightPos[i].x = lightPos[i].x + lightPosData[i].x * delta;
@@ -109,7 +110,7 @@ class LightingExample extends BaseGame {
   }
 
   @override
-  config() {
+  void config() {
     scaleMode = ScaleMode.resize;
   }
 

@@ -15,23 +15,23 @@ class AudioWrapper {
   ///
   /// The wrapper provided in BaseGame should typically be used instead.
   AudioWrapper() {
-    this.context = web_audio.AudioContext();
+    context = web_audio.AudioContext();
   }
 
   /// Adds a sound to the list of sounds currently playing.
-  addPlaying(AudioPlayer sound) {
+  void addPlaying(AudioPlayer sound) {
     if(!sounds.contains(sound)) {
       sounds.add(sound);
     }
   }
 
   /// Removes a sound from this list of sounds currently playing.
-  removePlaying(AudioPlayer sound) {
+  void removePlaying(AudioPlayer sound) {
     sounds.remove(sound);
   }
 
   /// Stops all currently playing sounds
-  stopAll() {
+  void stopAll() {
     var oldSounds = List.from(sounds);
     for(var sound in oldSounds) {
       sound.stop();
@@ -53,7 +53,7 @@ abstract class AudioPlayer {
   void play({bool loop = false, Function onEnd});
 
   /// Loops this sound indefinitely
-  loop() {
+  void loop() {
     play(loop: true);
   }
 

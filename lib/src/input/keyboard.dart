@@ -5,13 +5,13 @@ part of cobblestone;
 /// A container that tracks the current state of inputs on the keyboard.
 class Keyboard {
   /// A map between key codes and the time the key was pressed.
-  Map<int, num> _keys = Map<int, num>();
+  final Map<int, num> _keys = {};
 
   /// A map of keys pressed last frame.
-  Map<int, num> _lastKeys = Map<int, num>();
+  final Map<int, num> _lastKeys = {};
 
   /// A list of subscription events used to get keybord data.
-  List<StreamSubscription> _subs = [];
+  final List<StreamSubscription> _subs = [];
 
   /// Creates a new keyboard, and subscribes to browser input events.
   Keyboard() {
@@ -37,23 +37,23 @@ class Keyboard {
   /// Moves the keyboard into the next logical "frame".
   ///
   /// Automatically called in [BaseGame] but may be used for a implementing a custom timestep.
-  update() {
+  void update() {
     _lastKeys.clear();
     _lastKeys.addAll(_keys);
   }
 
   /// Returns true if a given key code, from [KeyCode], is currently pressed down
-  keyPressed(int keyCode) => _keys.containsKey(keyCode);
+  bool keyPressed(int keyCode) => _keys.containsKey(keyCode);
 
   /// Returns true if a given key code, from [KeyCode], was just released this frame
-  keyJustReleased(int keyCode) =>
+  bool keyJustReleased(int keyCode) =>
       _lastKeys.containsKey(keyCode) && !_keys.containsKey(keyCode);
 
   /// Returns true if a given key code, from [KeyCode], was just pressed this frame
-  keyJustPressed(int keyCode) =>
+  bool keyJustPressed(int keyCode) =>
       !_lastKeys.containsKey(keyCode) && _keys.containsKey(keyCode);
 
-  _cancelSubs() {
+  void _cancelSubs() {
     for (var sub in _subs) {
       sub.cancel();
     }

@@ -8,11 +8,10 @@ Future<Music> loadMusic(AudioWrapper audio, String url) async {
 
 /// A longer sound, streamed from an [AudioElement].
 class Music extends AudioPlayer {
-  AudioWrapper _audio;
-  web_audio.AudioContext _context;
+  final AudioWrapper _audio;
 
   /// The media element for this music.
-  MediaElement element;
+  final MediaElement element;
 
   /// The progress, in seconds, through the media element.
   double get time => element.currentTime;
@@ -25,12 +24,11 @@ class Music extends AudioPlayer {
   /// Creates a new music from an HTML Media Element.
   ///
   /// This should typically be called via [loadMusic]
-  Music(this._audio, this.element) {
-    this._context = _audio.context;
-  }
+  Music(this._audio, this.element);
 
   /// Plays this music. If [loop] is true, repeats indefinitely.
-  play({bool loop = false, Function onEnd}) {
+  @override
+  void play({bool loop = false, Function onEnd}) {
     element.loop = loop;
     element.volume = volume;
     element.onEnded.first.then((e) {
@@ -41,17 +39,20 @@ class Music extends AudioPlayer {
   }
 
   /// Stops this sound.
-  stop() {
+  @override
+  void stop() {
     element.pause();
     element.currentTime = 0;
   }
 
   /// Loops this sound indefinitely.
-  loop() {
+  @override
+  void loop() {
     play(loop: true);
   }
 
   /// True if the music is currently playing, false if not
+  @override
   bool get playing => _playing;
   set playing(bool playing) {
     _playing = playing;
@@ -63,8 +64,8 @@ class Music extends AudioPlayer {
   }
 
   /// The volume, clamped from 0 to 1, of this music.
+  @override
   double get volume => _volume;
-
   set volume(double volume) {
     _volume = volume;
     if (_volume < 0) {

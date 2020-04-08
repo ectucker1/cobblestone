@@ -2,12 +2,17 @@ part of cobblestone;
 
 /// A batch of textured sprites.
 class SpriteBatch extends VertexBatch {
+  @override
   int maxSprites = 2000;
 
-  int drawMode = WebGL.TRIANGLES;
+  @override
+  final int drawMode = WebGL.TRIANGLES;
 
+  @override
   final int vertexSize = 6;
+  @override
   final int verticesPerSprite = 4;
+  @override
   final int indicesPerSprite = 6;
 
   Vector4 _color = Colors.white;
@@ -41,7 +46,7 @@ class SpriteBatch extends VertexBatch {
 
   /// Draws the [texture] at ([x], [y]), the bottom left of the sprite. Can optionally draw at a given [height] and [width], scale by [scaleX] and [scaleY],
   /// flip the texture if [flipX] or [flipY], or turn [angle] around the center.
-  draw(Texture texture, num x, num y,
+  void draw(Texture texture, num x, num y,
       {num width, num height,
       num scaleX = 1, num scaleY = 1,
       bool flipX = false, bool flipY = false,
@@ -50,7 +55,7 @@ class SpriteBatch extends VertexBatch {
     y = y.toDouble();
 
     if (spritesInFlush >= maxSprites) {
-      print("Cobblestone: Warning: Batch full, forcing flush");
+      print('Cobblestone: Warning: Batch full, forcing flush');
       flush();
     }
     if (this.texture != null) {
@@ -61,12 +66,9 @@ class SpriteBatch extends VertexBatch {
 
     this.texture = texture;
 
-    if (width == null) {
-      width = texture.width;
-    }
-    if (height == null) {
-      height = texture.height;
-    }
+    width ??= texture.width;
+    height ??= texture.height;
+
     width *= scaleX;
     height *= scaleY;
 
@@ -181,7 +183,7 @@ class SpriteBatch extends VertexBatch {
   }
 
   @override
-  createIndices() {
+  void createIndices() {
     for (int i = 0, j = 0; i < indices.length; i += 6, j += 4) {
       indices[i] = j;
       indices[i + 1] = j + 1;
@@ -196,13 +198,13 @@ class SpriteBatch extends VertexBatch {
   }
 
   @override
-  setAttribPointers() {
-    _context.vertexAttribPointer(shaderProgram.attributes[vertPosAttrib], 3,
-        WebGL.FLOAT, false, vertexSize * 4, 0);
-    _context.vertexAttribPointer(shaderProgram.attributes[colorAttrib], 4,
-        WebGL.UNSIGNED_BYTE, true, vertexSize * 4, 3 * 4);
-    _context.vertexAttribPointer(shaderProgram.attributes[textureCoordAttrib], 3,
-        WebGL.FLOAT, false, vertexSize * 4, 4 * 4);
+  void setAttribPointers() {
+    _context.vertexAttribPointer(shaderProgram.attributes[vertPosAttrib],
+        3, WebGL.FLOAT, false, vertexSize * 4, 0);
+    _context.vertexAttribPointer(shaderProgram.attributes[colorAttrib],
+        4, WebGL.UNSIGNED_BYTE, true, vertexSize * 4, 3 * 4);
+    _context.vertexAttribPointer(shaderProgram.attributes[textureCoordAttrib],
+        3, WebGL.FLOAT, false, vertexSize * 4, 4 * 4);
 
     _context.uniform1i(shaderProgram.uniforms[samplerUni], texture.bind(0));
   }

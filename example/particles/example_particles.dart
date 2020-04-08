@@ -9,21 +9,21 @@ class ParticlesExample extends BaseGame {
   ParticleEmitter emitter;
 
   @override
-  create() {
+  void create() {
     camera = Camera2D.originBottomLeft(width, height);
     renderer = SpriteBatch.defaultShader(gl);
 
-    ParticleEffect effect = assetManager.get("flame");
+    ParticleEffect effect = assetManager.get('flame');
     emitter = ParticleEmitter(effect);
 }
 
   @override
-  preload() {
-    assetManager.load("flame", loadEffect("particles/flame.json", loadTexture(gl, "particles/flame.png", linear)));
+  void preload() {
+    assetManager.load('flame', loadEffect('particles/flame.json', loadTexture(gl, 'particles/flame.png', linear)));
   }
 
   @override
-  render(double delta) {
+  void render(double delta) {
     gl.clearScreen(Colors.gray);
 
     camera.update();
@@ -39,18 +39,19 @@ class ParticlesExample extends BaseGame {
     renderer.end();
   }
 
-  resize(int width, int height) {
+  @override
+  void resize(int width, int height) {
     camera = Camera2D.originBottomLeft(width, height);
   }
 
   @override
-  update(double delta) {
+  void update(double delta) {
     emitter.pos = mouse.worldCoord(camera);
     emitter.update(delta);
   }
 
   @override
-  config() {
+  void config() {
     scaleMode = ScaleMode.fit;
     requestedWidth = 1920;
     requestedHeight = 1080;

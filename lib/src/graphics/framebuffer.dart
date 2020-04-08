@@ -28,10 +28,8 @@ class Framebuffer {
   /// Creates a new framebuffer of [width], [height]. Can use [shader] for effects.
   Framebuffer(this.wrapper, this.width, this.height, {this.shader, filter = WebGL.NEAREST}) {
     _context = wrapper.context;
-    
-    if (shader == null) {
-      shader = wrapper.batchShader;
-    }
+
+    shader ??= wrapper.batchShader;
     _batch = SpriteBatch(wrapper, shader, maxSprites: 2);
 
     texture = Texture.empty(wrapper, width, height, filter);
@@ -69,12 +67,9 @@ class Framebuffer {
 
     setAdditionalUniforms();
 
-    if(width == null) {
-      width = this.width ~/ 2;
-    }
-    if(height == null) {
-      height = this.height ~/ 2;
-    }
+    width ??= this.width ~/ 2;
+    height ??= this.height ~/ 2;
+
     _batch.draw(texture, x, y, width: width, height: height);
     _batch.end();
   }

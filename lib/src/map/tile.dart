@@ -11,6 +11,8 @@ abstract class Tile {
   /// Custom user data describing this tile.
   MapProperties properties;
 
+  Tile._(this.id, this.texture);
+
   /// Renders the tile using [batch].
   void render(SpriteBatch batch, num x, num y, num width, num height);
 
@@ -20,14 +22,9 @@ abstract class Tile {
 
 /// A static tile, with a single image.
 class BasicTile extends Tile {
-  int id;
-
-  Texture texture;
-
-  MapProperties properties;
 
   /// Creates a new basic tile with the given [id], [texture] and optionally TMX data.
-  BasicTile(this.id, this.texture, [xml.XmlElement data]) {
+  BasicTile(int id, Texture texture, [xml.XmlElement data]): super._(id, texture) {
     if (data != null) {
       properties = MapProperties.fromChild(data);
     } else {
@@ -43,9 +40,6 @@ class BasicTile extends Tile {
 
 /// A tile that plays an animation in a loop.
 class AnimatedTile extends Tile {
-  int id;
-
-  Texture texture;
 
   /// A list of texture frames for this tile's animation.
   List<Texture> frames = [];
@@ -53,19 +47,17 @@ class AnimatedTile extends Tile {
   /// A list of timings in seconds corresponding to textures in [frames].
   List<double> timings = [];
 
-  MapProperties properties;
-
   /// The time into the current animation loop, in seconds.
   double currentTime = 0.0;
 
   /// Creates a new animated tile, with frames from the given set of basic tiles.
-  AnimatedTile(this.id, xml.XmlElement data, int firstGID,
-      Map<int, BasicTile> basicTiles) {
+  AnimatedTile(int id, xml.XmlElement data, int firstGID,
+      Map<int, BasicTile> basicTiles): super._(id, null) {
     for (var frame
-        in data.findElements("animation").first.findElements("frame")) {
-      frames.add(basicTiles[int.parse(frame.getAttribute("tileid")) + firstGID]
+        in data.findElements('animation').first.findElements('frame')) {
+      frames.add(basicTiles[int.parse(frame.getAttribute('tileid')) + firstGID]
           .texture);
-      timings.add(double.parse(frame.getAttribute("duration")) / 1000);
+      timings.add(double.parse(frame.getAttribute('duration')) / 1000);
     }
 
     properties = MapProperties.fromChild(data);
